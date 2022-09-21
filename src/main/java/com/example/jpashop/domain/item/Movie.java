@@ -11,7 +11,6 @@ import javax.persistence.Entity;
 @Getter
 @DiscriminatorValue("M")
 public class Movie extends Item{
-
     private String director;
     private String actor;
 }
