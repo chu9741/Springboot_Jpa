@@ -1,12 +1,13 @@
 package com.example.jpashop.service;
 
-import com.example.jpashop.Repository.ItemRepository;
 import com.example.jpashop.domain.item.Item;
+import com.example.jpashop.domain.item.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -25,6 +26,6 @@ public class ItemService {
     }
 
     public Item findOne(Long itemId){
-        return itemRepository.findOne(itemId);
+        return itemRepository.findById(itemId).orElseThrow(()->new IllegalArgumentException("No Item exists."));
     }
 }

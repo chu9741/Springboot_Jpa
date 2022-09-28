@@ -1,7 +1,7 @@
 package com.example.jpashop.service;
 
-import com.example.jpashop.Repository.MemberRepository;
 import com.example.jpashop.domain.Member;
+import com.example.jpashop.domain.MemberRepository;
 import lombok.RequiredArgsConstructor;
 //import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,7 +33,7 @@ public class MemberService {
     }
 
     private void validateDuplicateMember(Member member){
-        List<Member> findMembers= memberRepository.findByName(member.getName());
+        List<Member> findMembers= memberRepository.findAllByName(member.getName());
         if(!findMembers.isEmpty()){
             throw new IllegalStateException("이미 존재하는 회원입니다.");
         }
@@ -45,6 +45,6 @@ public class MemberService {
     }
 
     public Member findOne(Long memberId){
-        return memberRepository.findOne(memberId);
+        return memberRepository.findById(memberId).orElseThrow(()->new IllegalArgumentException("No member exists."));
     }
 }
