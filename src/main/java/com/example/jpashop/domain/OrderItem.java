@@ -27,5 +27,29 @@ public class OrderItem {
     private int orderPrice;
     private int count;
 
+    //=====생성 메서드=====//
+    public static OrderItem createOrderItem(Item item, int orderPrice, int count){
+        OrderItem orderItem = new OrderItem(); //orderPrice는 Item에 있는 값이 아닌 새로 만듬, 할인가 생각
+        orderItem.setItem(item);
+        orderItem.setOrderPrice(orderPrice);
+        orderItem.setCount(count);
+
+        item.removeStock(count);
+        return orderItem;
+    }
+
+
+
+    //=====비즈니스 로직=====//
+    public void cancel(){
+        //재고수량 원복 해줘야함
+        getItem().addStock(count);
+        //this. 생략?
+    }
+
+    //==조회 로직==//
+    public int getTotalPrice(){
+        return getOrderPrice() * getCount();
+    }
 
 }
