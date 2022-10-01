@@ -1,5 +1,6 @@
 package com.example.jpashop.service;
 
+import com.example.jpashop.Repository.OrderRepository;
 import com.example.jpashop.domain.*;
 import com.example.jpashop.domain.item.Book;
 import com.example.jpashop.domain.item.Item;
@@ -49,7 +50,7 @@ public class OrderServiceTest {
         Long orderId = orderService.order(member.getId(), book.getId(), orderCount);
 
         //then
-        Order getOrder = orderRepository.findById(orderId).orElseThrow(()->new IllegalArgumentException("no order!!!"));
+        Order getOrder = orderRepository.findOne(orderId);
 
         Assert.assertEquals("상품 주문시 상태는 ORDER", OrderStatus.ORDER, getOrder.getStatus());
         Assert.assertEquals("주문한 가격은 가격*수량", 10000*orderCount,getOrder.getTotalPrice() );
@@ -79,7 +80,7 @@ public class OrderServiceTest {
         orderService.cancelOrder(orderId);
 
         //then
-        Order getOrder = orderRepository.findById(orderId).orElseThrow(()->new IllegalArgumentException("no Order!!!!!!"));
+        Order getOrder = orderRepository.findOne(orderId);
 
         Assert.assertEquals("주문취소시 상태는 CANCEL", OrderStatus.CANCEL, getOrder.getStatus());
         Assert.assertEquals("주문이 취소된 상품은 재고 원복",10, book.getStockQuantity());

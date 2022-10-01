@@ -5,9 +5,8 @@ import com.example.jpashop.domain.OrderStatus;
 import com.example.jpashop.domain.QMember;
 import com.example.jpashop.domain.QOrder;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import lombok.RequiredArgsConstructor;
-import org.hibernate.query.criteria.internal.predicate.BooleanExpressionPredicate;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -19,11 +18,11 @@ import static com.example.jpashop.domain.QMember.member;
 import static com.example.jpashop.domain.QOrder.order;
 
 @Repository
-@RequiredArgsConstructor
 public class OrderRepository {
 
     @PersistenceContext
-    private final EntityManager em;
+    EntityManager em;
+
     JPAQueryFactory query = new JPAQueryFactory(em);
     public List<Order> findAll(OrderSearch orderSearch){
         QMember member = QMember.member;

@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class OrderService {
 
-    private final OrderRepository orderRepository;
+    private final com.example.jpashop.Repository.OrderRepository orderRepository;
     private final MemberRepository memberRepository;
     private final ItemRepository itemRepository;
 
@@ -45,7 +45,7 @@ public class OrderService {
     @Transactional
     public void cancelOrder(Long orderId){
         //주문 엔티티 조회
-        Order order= orderRepository.findById(orderId).orElseThrow(()->new IllegalArgumentException("no order"));
+        Order order= orderRepository.findOne(orderId);
 
         //주문 취소
         order.cancel();
