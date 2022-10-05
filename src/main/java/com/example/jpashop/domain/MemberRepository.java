@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface MemberRepository extends JpaRepository<Member,Long> {
     List<Member> findAllByName(String name);
+
 }

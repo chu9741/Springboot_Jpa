@@ -1,10 +1,11 @@
 package com.example.jpashop.controller;
 
 import com.example.jpashop.domain.Address;
+import com.example.jpashop.domain.ImageFile;
 import com.example.jpashop.domain.Member;
+import com.example.jpashop.service.FileService;
 import com.example.jpashop.service.MemberService;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,16 +13,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
 public class MemberController {
 
     private final MemberService memberService;
+    private final FileService fileService;
 
     @GetMapping("/members/new")
     public String createForm(Model model){
         model.addAttribute("memberForm", new MemberForm());
+        model.addAttribute("imageFile", new ImageFile());
         return "members/createMemberForm";
     }//Model=Controller에서 view로 넘어갈 때 데이터를 실어서 넘김
     //화면을 이동할때 MemberForm껍데기를 가지고 간다
@@ -41,4 +45,14 @@ public class MemberController {
         memberService.join(member);
         return "redirect:/";
     }
+
+    @GetMapping("/members")
+    public String list(Model model){
+        List<Member> members = memberService.findMembers();
+        List<ImageFile> files = fileService.findOne();
+        model.addAttribute("members", members);
+        model.addAttribute("files", files);
+
+        return "members/memberList";
+    } //model에 members를 받아서 memeberList화면으로 넘김
 }
