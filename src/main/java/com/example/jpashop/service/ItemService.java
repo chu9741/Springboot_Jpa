@@ -1,5 +1,6 @@
 package com.example.jpashop.service;
 
+import com.example.jpashop.domain.item.Book;
 import com.example.jpashop.domain.item.Item;
 import com.example.jpashop.domain.item.ItemRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,14 @@ public class ItemService {
     @Transactional
     public void saveItem(Item item){
         itemRepository.save(item);
+    }
+
+    @Transactional
+    public void updateItem(Long itemId, Book bookParam){
+        Item findItem = itemRepository.findById(itemId).orElseThrow(()->new IllegalArgumentException("No member exists."));
+        findItem.setPrice(bookParam.getPrice());
+        findItem.setName(bookParam.getName());
+        findItem.setStockQuantity(bookParam.getStockQuantity());
     }
 
     public List<Item> findItems(){
